@@ -18,7 +18,7 @@ public class GlobalExceptionHandler
 {
     /**
      * Handles validation errors from @Valid annotation.
-     * This catches MethodArgumentNotValidException for DTO validation.
+     * This catches MethodArgumentNotValidException.
      *
      * @param ex The MethodArgumentNotValidException.
      * @return ResponseEntity with error details and HTTP status 400 (Bad Request).
@@ -102,7 +102,7 @@ public class GlobalExceptionHandler
      * @return ResponseEntity with error details and HTTP status 500 (Internal Server Error).
      */
     @ExceptionHandler(DatabaseOperationException.class)
-    public ResponseEntity<Object> handleDatabaseOperationException(DatabaseOperationException ex)
+    public ResponseEntity<Object> handleDatabaseOperationException(final DatabaseOperationException ex)
     {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
@@ -121,7 +121,7 @@ public class GlobalExceptionHandler
      * @return ResponseEntity with error details and HTTP status 400 (Bad Request).
      */
     @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<Object> handleCustomValidationException(ValidationException ex)
+    public ResponseEntity<Object> handleCustomValidationException(final ValidationException ex)
     {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
@@ -141,7 +141,7 @@ public class GlobalExceptionHandler
      * @return ResponseEntity with error details and HTTP status 500 (Internal Server Error).
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAllUncaughtException(Exception ex)
+    public ResponseEntity<Object> handleAllUncaughtException(final Exception ex)
     {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());

@@ -6,13 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class DatabaseOperationException extends RuntimeException
 {
-    public DatabaseOperationException(String message, Throwable cause)
+    public DatabaseOperationException(final String message, final Throwable cause)
     {
         super(message, cause);
-    }
-
-    public DatabaseOperationException(String message)
-    {
-        super(message);
     }
 }

@@ -20,10 +20,10 @@ import static org.mockito.Mockito.when;
 class AccountLimitValidatorTest {
 
     @Mock
-    private SavingsAccountRepository accountRepository; // Mock the repository for counting accounts
+    private SavingsAccountRepository accountRepository;
 
     @InjectMocks
-    private AccountLimitValidator validator; // Inject mocks into the validator
+    private AccountLimitValidator validator;
 
     private final String CUSTOMER_NAME_UNDER_LIMIT = "CustomerA";
     private final String CUSTOMER_NAME_AT_LIMIT = "CustomerB";

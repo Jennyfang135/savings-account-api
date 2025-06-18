@@ -4,7 +4,7 @@ package com.interview.save.account.exception;
 // by the @ControllerAdvice, which will determine the HTTP status.
 public class ValidationException extends RuntimeException
 {
-    public ValidationException(String message)
+    public ValidationException(final String message)
     {
         super(message);
     }

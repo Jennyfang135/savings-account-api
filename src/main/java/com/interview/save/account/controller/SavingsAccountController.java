@@ -4,13 +4,14 @@ import com.interview.save.account.model.AccountResponse;
 import com.interview.save.account.model.SavingsAccount;
 import com.interview.save.account.model.SavingsAccountCreateRequest;
 import com.interview.save.account.service.SavingsAccountService;
+
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,8 @@ public class SavingsAccountController
     private final SavingsAccountService accountService;
 
     @Autowired
-    public SavingsAccountController(SavingsAccountService accountService) {
+    public SavingsAccountController(final SavingsAccountService accountService)
+    {
         this.accountService = accountService;
     }
 
@@ -29,10 +31,11 @@ public class SavingsAccountController
      * Request body is validated using @Valid.
      *
      * @param request The AccountCreateRequest DTO.
-     * @return ResponseEntity with the created AccountResponse and HTTP status 201 (Created).
+     * @return ResponseEntity with the created {@link AccountResponse} and HTTP status 201 (Created).
      */
     @PostMapping
-    public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody SavingsAccountCreateRequest request) {
+    public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody SavingsAccountCreateRequest request)
+    {
         final SavingsAccount createdAccount = accountService.createAccount(request);
         final AccountResponse response = new AccountResponse(
             createdAccount.getId(),
@@ -47,10 +50,11 @@ public class SavingsAccountController
      * Endpoint to get a savings bank account by its account number.
      *
      * @param accountNumber The unique account number.
-     * @return ResponseEntity with the AccountResponse and HTTP status 200 (OK).
+     * @return ResponseEntity with the {@link AccountResponse} for the account number.
      */
     @GetMapping("/{accountNumber}")
-    public ResponseEntity<AccountResponse> getAccount(@PathVariable String accountNumber) {
+    public ResponseEntity<AccountResponse> getAccount(@PathVariable String accountNumber)
+    {
         SavingsAccount account = accountService.getAccount(accountNumber);
         AccountResponse response = new AccountResponse(
             account.getId(),
@@ -64,7 +68,7 @@ public class SavingsAccountController
     /**
      * Endpoint to get all savings bank accounts.
      *
-     * @return ResponseEntity with a list of AccountResponse and HTTP status 200 (OK).
+     * @return ResponseEntity with a list of {@link AccountResponse}.
      */
     @GetMapping
     public ResponseEntity<List<AccountResponse>> getAllAccounts()
@@ -87,10 +91,11 @@ public class SavingsAccountController
      * Endpoint to delete a savings bank account by its ID.
      *
      * @param id The unique ID of the account to delete.
-     * @return ResponseEntity with the ID of the deleted account and HTTP status 200 (OK).
+     * @return ResponseEntity with the ID of the deleted account.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAccountById(@PathVariable String id) {
+    public ResponseEntity<String> deleteAccountById(@PathVariable String id)
+    {
         accountService.deleteAccountById(id);
         return new ResponseEntity<>(id, HttpStatus.OK); // Return the ID of the deleted account with 200 OK
     }

@@ -21,34 +21,34 @@ public class SavingsAccountService
     private final Random random = new Random();
 
     @Autowired
-    public SavingsAccountService(SavingsAccountRepository accountRepository) {
+    public SavingsAccountService(final SavingsAccountRepository accountRepository)
+    {
         this.accountRepository = accountRepository;
     }
 
     /**
      * Creates a new savings bank account.
-     * This method handles account number generation, saves the account,
-     * and performs validations.
+     * This method handles account number generation, saves the account.
      *
-     * @param request The AccountCreateRequest DTO containing customer name and nickname.
-     * @return The created Account entity.
+     * @param request The {@link SavingsAccountCreateRequest} contains customer name and nickname.
+     * @return The created {@link SavingsAccount}.
      * @throws DatabaseOperationException if there's an issue with database interaction.
+     * @throws Exception if an unexpected error occurs while creating a savings account.
      */
-    @Transactional // Ensures atomicity of the operation
-    public SavingsAccount createAccount(SavingsAccountCreateRequest request)
+    @Transactional
+    public SavingsAccount createAccount(final SavingsAccountCreateRequest request)
     {
         try {
-            // AccountLimit validation is done via @AccountLimit on customerName in DTO
-            // OffensiveNickname validation is done via @OffensiveNickname on accountNickname in DTO
-
+            // AccountLimit validation is done via @AccountLimit on customerName
+            // OffensiveNickname validation is done via @OffensiveNickname on accountNickname
             // Generate a unique 10-digit account number
             String accountNumber;
             do {
                 accountNumber = generateAccountNumber();
-            } while (accountRepository.findByAccountNumber(accountNumber).isPresent()); // Ensure uniqueness
+            } while (accountRepository.findByAccountNumber(accountNumber).isPresent()); // Ensure accountNumber uniqueness
 
-            SavingsAccount account = new SavingsAccount(accountNumber, request.getCustomerName(), request.getAccountNickname());
-            return (SavingsAccount) accountRepository.save(account);
+            final SavingsAccount account = new SavingsAccount(accountNumber, request.getCustomerName(), request.getAccountNickname());
+            return accountRepository.save(account);
         } catch (DataAccessException e) {
             // Catch specific data access exceptions and wrap them in a custom exception
             throw new DatabaseOperationException("Failed to create account due to database error.", e);
@@ -62,12 +62,13 @@ public class SavingsAccountService
      * Retrieves a savings bank account by its account number.
      *
      * @param accountNumber The unique account number.
-     * @return The found Account entity.
+     * @return The found {@link SavingsAccount}.
      * @throws ResourceNotFoundException if no account is found with the given account number.
      * @throws DatabaseOperationException if there's an issue with database interaction.
+     * @throws Exception if an unexpected error occurs while retrieving savings accounts.
      */
-    @Transactional(readOnly = true) // Optimize for read operations
-    public SavingsAccount getAccount(String accountNumber)
+    @Transactional(readOnly = true)
+    public SavingsAccount getAccount(final String accountNumber)
     {
         try {
             return accountRepository.findByAccountNumber(accountNumber)
@@ -84,11 +85,13 @@ public class SavingsAccountService
     /**
      * Retrieves all savings bank accounts.
      *
-     * @return A list of all SavingsAccount entities.
+     * @return A list of all {@link SavingsAccount} entities.
      * @throws DatabaseOperationException if there's an issue with database interaction.
+     * @throws Exception if other unexpected error occurs while retrieving all savings accounts.
      */
     @Transactional(readOnly = true)
-    public List<SavingsAccount> getAllAccounts() { // Changed from Account to SavingsAccount
+    public List<SavingsAccount> getAllAccounts()
+    {
         try {
             return accountRepository.findAll();
         } catch (DataAccessException e) {
@@ -107,13 +110,15 @@ public class SavingsAccountService
      * @throws DatabaseOperationException if there's an issue with database interaction.
      */
     @Transactional
-    public String deleteAccountById(String id) { // Changed return type from void to String
+    public String deleteAccountById(final String id)
+    {
         try {
-            if (!accountRepository.existsById(id)) { // Check if account exists before trying to delete
+            // Check if account exists before trying to delete.
+            if (!accountRepository.existsById(id)) {
                 throw new ResourceNotFoundException("Account with ID " + id + " not found.");
             }
             accountRepository.deleteById(id);
-            return id; // Return the ID upon successful deletion
+            return id;
         } catch (EmptyResultDataAccessException e) {
             // This exception is thrown by deleteById if the entity doesn't exist.
             // While we have existsById, this is a good fallback for robustness.

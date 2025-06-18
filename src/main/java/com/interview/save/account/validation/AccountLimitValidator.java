@@ -6,9 +6,9 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component // Must be a Spring component to enable autowiring
-public class AccountLimitValidator implements ConstraintValidator<AccountLimit, String> {
-
+@Component
+public class AccountLimitValidator implements ConstraintValidator<AccountLimit, String>
+{
     private static final int MAX_ACCOUNTS_PER_CUSTOMER = 5;
 
     // Autowired to access the repository for counting accounts
@@ -16,12 +16,14 @@ public class AccountLimitValidator implements ConstraintValidator<AccountLimit, 
     private SavingsAccountRepository accountRepository;
 
     @Override
-    public void initialize(AccountLimit constraintAnnotation) {
+    public void initialize(final AccountLimit constraintAnnotation)
+    {
         // No initialization needed
     }
 
     @Override
-    public boolean isValid(String customerName, ConstraintValidatorContext context) {
+    public boolean isValid(String customerName, ConstraintValidatorContext context)
+    {
         if (customerName == null || customerName.trim().isEmpty()) {
             return true; // Handled by @NotBlank on customerName
         }

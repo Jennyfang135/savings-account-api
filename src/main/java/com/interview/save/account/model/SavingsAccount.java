@@ -23,7 +23,8 @@ public class SavingsAccount
     @Size(min = 5, max = 30, message = "Account nick name should be between 5 to 30 characters")
     private String accountNickName;
 
-    public SavingsAccount() {
+    public SavingsAccount()
+    {
     }
 
     public SavingsAccount(final String accountNumber, final String customerName, final String accountNickname)
@@ -39,7 +40,7 @@ public class SavingsAccount
         return id;
     }
 
-    public void setId(String id)
+    public void setId(final String id)
     {
         this.id = id;
     }
@@ -54,11 +55,12 @@ public class SavingsAccount
         this.accountNumber = accountNumber;
     }
 
-    public String getCustomerName() {
+    public String getCustomerName()
+    {
         return customerName;
     }
 
-    public void setCustomerName(String customerName)
+    public void setCustomerName(final String customerName)
     {
         this.customerName = customerName;
     }
@@ -68,7 +70,7 @@ public class SavingsAccount
         return accountNickName;
     }
 
-    public void setAccountNickname(String accountNickname)
+    public void setAccountNickname(final String accountNickname)
     {
         this.accountNickName = accountNickname;
     }

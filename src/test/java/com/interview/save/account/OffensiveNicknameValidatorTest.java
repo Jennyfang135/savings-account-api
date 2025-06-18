@@ -6,20 +6,20 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OffensiveNicknameValidatorTest {
+class OffensiveNicknameValidatorTest
+{
 
     private OffensiveNicknameValidator validator;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         validator = new OffensiveNicknameValidator();
-        // The validator's initialize method doesn't do anything for this specific validator,
-        // but it's good practice to call it if it were relevant.
-        // validator.initialize(null); // No annotation instance needed for this validator
     }
 
     @Test
-    void isValid_ShouldReturnFalse_ForOffensiveNickname() {
+    void isValid_ShouldReturnFalse_ForOffensiveNickname()
+    {
         assertFalse(validator.isValid("swearword", null), "Should be false for a known offensive word");
         assertFalse(validator.isValid("badword", null), "Should be false for another known offensive word");
         assertFalse(validator.isValid("IDiot", null), "Should be false for offensive word (case insensitive)");

@@ -8,8 +8,11 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = OffensiveNicknameValidator.class)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface OffensiveNickname {
+public @interface OffensiveNickname
+{
     String message() default "Account nickname contains offensive language";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

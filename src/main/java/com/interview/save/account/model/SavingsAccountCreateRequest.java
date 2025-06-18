@@ -8,8 +8,9 @@ import jakarta.validation.constraints.Size;
 public class SavingsAccountCreateRequest
 {
     @NotBlank(message = "Customer name is mandatory")
-    // Custom validation to check the 5-account limit, customerId might be a better option as we may have duplicated names,
-    // for now we assume that customerName will be unique.
+    // Custom validation to check the 5-account limit.
+    // Please NOTE 'customerId' might be a better option as different customers may have same customer names,
+    // for now we assume that customerName will be unique in this project.
     @AccountLimit
     private String customerName;
 

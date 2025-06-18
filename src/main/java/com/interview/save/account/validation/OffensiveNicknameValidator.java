@@ -10,16 +10,16 @@ public class OffensiveNicknameValidator implements ConstraintValidator<Offensive
     // A simple list of offensive nicknames for demonstration.
     // In a real application, this would be loaded from a configuration, database, or external service.
     private static final List<String> OFFENSIVE_NICKNAMES = Arrays.asList(
-        "swearword", "badword", "offensive", "hate", "dummy", "idiot"
+        "swearword", "badword", "offensive", "hate", "dummy", "idiot", "stupid"
     );
 
     @Override
-    public void initialize(OffensiveNickname constraintAnnotation) {
+    public void initialize(final OffensiveNickname constraintAnnotation) {
         // No initialization needed
     }
 
     @Override
-    public boolean isValid(String nickname, ConstraintValidatorContext context) {
+    public boolean isValid(final String nickname, final ConstraintValidatorContext context) {
         if (nickname == null || nickname.trim().isEmpty()) {
             return true; // Null or empty nicknames are handled by @NotBlank or @Size
         }
