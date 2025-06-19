@@ -1,7 +1,10 @@
 package com.interview.save.account.model;
 
-public class AccountResponse
+import java.io.Serializable;
+
+public class AccountResponse implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private String id;
     private String accountNumber;
     private String customerName;

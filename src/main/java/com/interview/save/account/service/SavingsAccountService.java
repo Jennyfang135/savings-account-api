@@ -5,6 +5,8 @@ import com.interview.save.account.exception.ResourceNotFoundException;
 import com.interview.save.account.model.SavingsAccount;
 import com.interview.save.account.model.SavingsAccountCreateRequest;
 import com.interview.save.account.repository.SavingsAccountRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,7 @@ public class SavingsAccountService
      * @return The created {@link SavingsAccount}.
      * @throws DatabaseOperationException if there's an issue with database interaction.
      */
+    @CacheEvict(value = "accounts", allEntries = true)
     @Transactional
     public SavingsAccount createAccount(final SavingsAccountCreateRequest request)
     {
@@ -62,6 +65,7 @@ public class SavingsAccountService
      * @throws ResourceNotFoundException if no account is found with the given account number.
      * @throws DatabaseOperationException if there's an issue with database interaction.
      */
+    @Cacheable(value = "accounts", key = "#accountNumber")
     @Transactional(readOnly = true)
     public SavingsAccount getAccount(final String accountNumber)
     {
@@ -80,6 +84,7 @@ public class SavingsAccountService
      * @return A list of all {@link SavingsAccount} entities.
      * @throws DatabaseOperationException if there's an issue with database interaction.
      */
+    @Cacheable(value = "accounts", key = "'allAccounts'")
     @Transactional(readOnly = true)
     public List<SavingsAccount> getAllAccounts()
     {
@@ -98,6 +103,7 @@ public class SavingsAccountService
      * @throws ResourceNotFoundException if no account is found with the given ID.
      * @throws DatabaseOperationException if there's an issue with database interaction.
      */
+    @CacheEvict(value = "accounts", allEntries = true)
     @Transactional
     public String deleteAccountById(final String id)
     {
