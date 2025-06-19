@@ -15,8 +15,8 @@ public class SavingsAccountCreateRequest
     private String customerName;
 
     @Size(min = 5, max = 30, message = "Account nickname must be between 5 and 30 characters")
-    @OffensiveNickname // Custom validation to check for offensive nicknames
-    private String accountNickname; // Optional, so no @NotBlank
+    @OffensiveNickname
+    private String accountNickname;
 
     // Getters and Setters
     public String getCustomerName()

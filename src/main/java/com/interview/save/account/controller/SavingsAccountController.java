@@ -30,7 +30,7 @@ public class SavingsAccountController
      * Endpoint to create a new savings bank account.
      * Request body is validated using @Valid.
      *
-     * @param request The AccountCreateRequest DTO.
+     * @param request The {@link SavingsAccountCreateRequest}.
      * @return ResponseEntity with the created {@link AccountResponse} and HTTP status 201 (Created).
      */
     @PostMapping
@@ -97,6 +97,6 @@ public class SavingsAccountController
     public ResponseEntity<String> deleteAccountById(@PathVariable String id)
     {
         accountService.deleteAccountById(id);
-        return new ResponseEntity<>(id, HttpStatus.OK); // Return the ID of the deleted account with 200 OK
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }
