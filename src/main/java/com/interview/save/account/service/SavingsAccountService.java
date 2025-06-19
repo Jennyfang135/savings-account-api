@@ -33,7 +33,6 @@ public class SavingsAccountService
      * @param request The {@link SavingsAccountCreateRequest} contains customer name and nickname.
      * @return The created {@link SavingsAccount}.
      * @throws DatabaseOperationException if there's an issue with database interaction.
-     * @throws Exception if an unexpected error occurs while creating a savings account.
      */
     @Transactional
     public SavingsAccount createAccount(final SavingsAccountCreateRequest request)
@@ -50,11 +49,8 @@ public class SavingsAccountService
             final SavingsAccount account = new SavingsAccount(accountNumber, request.getCustomerName(), request.getAccountNickname());
             return accountRepository.save(account);
         } catch (DataAccessException e) {
-            // Catch specific data access exceptions and wrap them in a custom exception
+            // Catch data access exceptions and wrap them in a custom exception
             throw new DatabaseOperationException("Failed to create account due to database error.", e);
-        } catch (Exception e) {
-            // Catch any other unexpected exceptions during the process
-            throw new RuntimeException("An unexpected error occurred while creating account.", e);
         }
     }
 
@@ -65,7 +61,6 @@ public class SavingsAccountService
      * @return The found {@link SavingsAccount}.
      * @throws ResourceNotFoundException if no account is found with the given account number.
      * @throws DatabaseOperationException if there's an issue with database interaction.
-     * @throws Exception if an unexpected error occurs while retrieving savings accounts.
      */
     @Transactional(readOnly = true)
     public SavingsAccount getAccount(final String accountNumber)
@@ -74,11 +69,8 @@ public class SavingsAccountService
             return accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new ResourceNotFoundException("Account with number " + accountNumber + " not found."));
         } catch (DataAccessException e) {
-            // Catch specific data access exceptions and wrap them in a custom exception
+            // Catch data access exceptions and wrap them in a custom exception
             throw new DatabaseOperationException("Failed to retrieve account due to database error.", e);
-        } catch (Exception e) {
-            // Catch any other unexpected exceptions during the process
-            throw new RuntimeException("An unexpected error occurred while retrieving account.", e);
         }
     }
 
@@ -87,7 +79,6 @@ public class SavingsAccountService
      *
      * @return A list of all {@link SavingsAccount} entities.
      * @throws DatabaseOperationException if there's an issue with database interaction.
-     * @throws Exception if other unexpected error occurs while retrieving all savings accounts.
      */
     @Transactional(readOnly = true)
     public List<SavingsAccount> getAllAccounts()
@@ -96,8 +87,6 @@ public class SavingsAccountService
             return accountRepository.findAll();
         } catch (DataAccessException e) {
             throw new DatabaseOperationException("Failed to retrieve all accounts due to database error.", e);
-        } catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred while retrieving all accounts.", e);
         }
     }
 
@@ -125,8 +114,6 @@ public class SavingsAccountService
             throw new ResourceNotFoundException("Account with ID " + id + " not found.");
         } catch (DataAccessException e) {
             throw new DatabaseOperationException("Failed to delete account due to database error.", e);
-        } catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred while deleting account.", e);
         }
     }
 

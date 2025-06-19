@@ -91,16 +91,16 @@ class SavingsAccountApplicationTests {
         verify(accountRepository, times(1)).findByAccountNumber(testAccount.getAccountNumber());
     }
 
-//    @Test
-//    void testGetAccount_NotFound() {
-//        // Mock behavior: findByAccountNumber returns empty optional
-//        when(accountRepository.findByAccountNumber("nonExistentAccount")).thenReturn(Optional.empty());
-//
-//        // Expect ResourceNotFoundException
-//        assertThrows(ResourceNotFoundException.class, () -> accountService.getAccount("nonExistentAccount"));
-//
-//        verify(accountRepository, times(1)).findByAccountNumber("nonExistentAccount");
-//    }
+    @Test
+    void testGetAccount_NotFound() {
+        // Mock behavior: findByAccountNumber returns empty optional
+        when(accountRepository.findByAccountNumber("nonExistentAccount")).thenReturn(Optional.empty());
+
+        // Expect ResourceNotFoundException
+        assertThrows(ResourceNotFoundException.class, () -> accountService.getAccount("nonExistentAccount"));
+
+        verify(accountRepository, times(1)).findByAccountNumber("nonExistentAccount");
+    }
 
 
     @Test
