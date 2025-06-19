@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,11 +32,10 @@ class SavingsAccountApplicationTests {
 
     private SavingsAccount testAccount;
     private SavingsAccountCreateRequest testRequest;
+    private static final Pattern ACCOUNT_NUMBER_PATTERN = Pattern.compile("^1\\d{9}$");
 
     @BeforeEach
     void setUp() {
-        // Reset mocks before each test to ensure a clean state
-        //Mockito.reset(accountRepository); // Not strictly necessary with @ExtendWith(MockitoExtension.class)
         testAccount = new SavingsAccount("1234567890", "John Doe", "MySavings");
         testAccount.setId("some-uuid"); // Simulate ID generation for retrieved account
 
@@ -57,6 +57,8 @@ class SavingsAccountApplicationTests {
         assertEquals(testRequest.getAccountNickname(), createdAccount.getAccountNickname());
         assertNotNull(createdAccount.getAccountNumber()); // Account number should be generated
         assertNotNull(createdAccount.getId()); // ID should be generated (though not by service directly)
+        assertTrue(ACCOUNT_NUMBER_PATTERN.matcher(createdAccount.getAccountNumber()).matches(),
+            "Generated account number should match pattern '1' followed by 9 digits");
 
         // Verify repository methods were called
         verify(accountRepository, times(1)).findByAccountNumber(anyString()); // Account number uniqueness check
@@ -78,7 +80,6 @@ class SavingsAccountApplicationTests {
 
     @Test
     void testGetAccount_Success() {
-        // Mock behavior: findByAccountNumber returns the test account
         when(accountRepository.findByAccountNumber(testAccount.getAccountNumber())).thenReturn(Optional.of(testAccount));
 
         SavingsAccount foundAccount = accountService.getAccount(testAccount.getAccountNumber());
@@ -101,7 +102,6 @@ class SavingsAccountApplicationTests {
 
         verify(accountRepository, times(1)).findByAccountNumber("nonExistentAccount");
     }
-
 
     @Test
     void testGetAccount_DatabaseDown() {
